@@ -1,0 +1,1 @@
+* * * * * /usr/local/bin/php /var/www/html/artisan project:task >> /dev/null 2>&1

@@ -1,2 +1,2 @@
 # docker-example
-docker service example
+dockerfile service example template

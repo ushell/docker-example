@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+# 设置日志权限
+chown -R www-data:www-data /var/www/html/storage/logs
+crond -L /var/log/crontab.log
+
+exec /usr/local/sbin/php-fpm --nodaemonize "$@"

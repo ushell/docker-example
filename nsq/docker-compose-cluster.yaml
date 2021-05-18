@@ -1,0 +1,36 @@
+# 替换本地IP: 192.168.1.100
+version: "3.7"
+services:
+  nsqlookupd0:
+    image: nsqio/nsq
+    command: /nsqlookupd --broadcast-address=192.168.1.100 --tcp-address=:41600 --http-address=:41610
+    ports:
+      - "41600:41600"
+      - "41610:41610"
+
+  nsqlookupd1:
+    image: nsqio/nsq
+    command: /nsqlookupd --broadcast-address=192.168.1.100 --tcp-address=:41601 --http-address=:41611
+    ports:
+      - "41601:41601"
+      - "41611:41611"
+
+  nsqd0:
+    image: nsqio/nsq
+    command: /nsqd --broadcast-address=192.168.1.100 --tcp-address=:41500 --http-address=:41510 --lookupd-tcp-address=192.168.1.100:41600 --lookupd-tcp-address=192.168.1.100:41601
+    depends_on:
+      - nsqlookupd0
+      - nsqlookupd1
+    ports:
+      - "41500:41500"
+      - "41510:41510"
+  nsqd1:
+    image: nsqio/nsq
+    command: /nsqd --broadcast-address=192.168.1.100 --tcp-address=:41501 --http-address=:41511 --lookupd-tcp-address=192.168.1.100:41600 --lookupd-tcp-address=192.168.1.100:41601
+    depends_on:
+      - nsqlookupd0
+      - nsqlookupd1
+    ports:
+      - "41501:41501"
+      - "41511:41511"
+
